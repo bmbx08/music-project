@@ -1,8 +1,8 @@
 // Client ID: f2ff519639164451a2d80c6b9ad2ae26
 // Client secret: 499b6bfabe374ee19f50a27e34a38438
 
-// let redirect_uri = "https://makeratplay.github.io/SpotifyWebAPI/"; // change this your value
-let redirect_uri = "http://127.0.0.1:5500/index.html";
+// let redirect_uri = "https://makeratplay.github.io/SpotifyWebAPI/";
+let redirect_uri = "http://127.0.0.1:5500/index.html"; //본인 html 여기에 삽입하기
  
 
 let client_id = ""; 
