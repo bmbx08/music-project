@@ -37,3 +37,20 @@ button:hover {
 #logged-in {
     display: none;
 }
+
+.album-img-size{
+    max-width: 100%;
+    max-height: 250px;
+}
+
+
+
+.col {
+    width: 80wh;
+    height: 250px;
+}
+
+.music {
+    border: 1px solid black;
+}
+

@@ -14,6 +14,8 @@ const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const tokenEndpoint = "https://accounts.spotify.com/api/token";
 const scope = 'user-read-private user-read-email';
 
+let recommendsList=[];
+
 
 // Data structure that manages the current active token, caching it in localStorage
 const currentToken = {
@@ -93,7 +95,7 @@ async function redirectToSpotifyAuthorize() {
   window.location.href = authUrl.toString(); // Redirect the user to the authorization server for login
 }
 
-// Soptify API Calls
+// Spotify API Calls
 async function getToken(code) {
   const code_verifier = localStorage.getItem('code_verifier');
 
@@ -135,8 +137,9 @@ async function getUserData() {
     method: 'GET',
     headers: { 'Authorization': 'Bearer ' + currentToken.access_token },
   });
-
-  return await response.json();
+  let userData= await response.json();
+  console.log("userdata",userData);
+  return userData;
 }
 
 // Click handlers
@@ -155,22 +158,15 @@ async function refreshTokenClick() {
   renderTemplate("oauth", "oauth-template", currentToken);
 }
 
-//자료 불러올 때 이 함수 사용하기
-const getRecentAlbums= async ()=> {
-  const response = await fetch("https://api.spotify.com/v1/browse/new-releases", {
-    method: 'GET',
-    headers: { 'Authorization': 'Bearer ' + currentToken.access_token },
-  });
-  const data= await response.json();
-  console.log("ddd",data);
-  return data;
-}
 
-// renderTemplate("oauth", "oauth-template", currentToken);
+
+
 // HTML Template Rendering with basic data binding - demoware only.
+//renderTemplate("main", "logged-in-template", userData);
 function renderTemplate(targetId, templateId, data = null) {
   const template = document.getElementById(templateId);
   const clone = template.content.cloneNode(true);
+  console.log(clone);
 
   const elements = clone.querySelectorAll("*");
   elements.forEach(ele => {
@@ -199,21 +195,67 @@ function renderTemplate(targetId, templateId, data = null) {
   target.appendChild(clone);
 }
 
-//bindingAttrs = data-bind, data-bind-onclick, data-bind-href, ...
 
-//만약 attr=data-bind,
+
+
+//renderTemplate("main", "logged-in-template", userData);
+//template=document.getElementById("logged-in-template")
+//clone=template.content.cloneNode(true)
+
+//elements=template안에 모든 elements
+//bindingAttrs = data-bind, data-bind-onclick, data-bind-href, ...(data-bind로 시작하는 모든 element들)
+
+//만약 attr->data-bind="href",
 //target= "",
 //targetType= PROPERTY,
 //targetProp= innerHTML
 
 //prefix= data.
-//expression= data.
+//expression= data.href
 
 
 
-//target = onclick, href, "", alt...
-//targetType = onclick->"HANDLER", ...rest->"PROPERTY"
-//targetProp = ""(data)-> innerHTML, onclick, href, alt...
+//자료 불러올 때 이 함수 사용하기
+const getGenres= async ()=> {
+  const response = await fetch("https://api.spotify.com/v1/recommendations/available-genre-seeds", {
+    method: 'GET',
+    headers: { 'Authorization': 'Bearer ' + currentToken.access_token },
+  });
+  let genres= await response.json();
+  console.log("genres", genres);
+  return genres;
+}
 
-//prefix = PROPERTY -> data., ...rest -> ""
-//expression = 
+const getRecommendations= async ()=> {
+  const response = await fetch("https://api.spotify.com/v1/recommendations?seed_genres=classical", {
+    method: 'GET',
+    headers: { 'Authorization': 'Bearer ' + currentToken.access_token },
+  });
+  let recommends= await response.json();
+  recommendsList = recommends.tracks;
+  console.log("Recommendations",recommends);
+  console.log("RecommendsList",recommendsList);
+  renderRecommends();
+}
+
+const renderRecommends=()=>{
+  let recommendsHTML = ``;
+
+  recommendsHTML = recommendsList.map(
+    (track) =>
+      `<div class="col-lg-2 music">
+        <div class="col-lg-8">
+          <img class="album-img-size" src=${track.album.images[0].url}>
+        </div>
+        <div class="col-lg-4">
+          <div>
+            ${track.name}
+          </div>
+          <div>
+            ${track.artists[0].name}
+          </div>
+        </div>
+      </div>`
+  ).join('');
+  document.getElementById("recommend-section").innerHTML = recommendsHTML;
+}
