@@ -7,14 +7,15 @@
  * https://developer.spotify.com/documentation/web-api/tutorials/code-pkce-flow
  */
 
-const clientId = 'c393eb607b6242cbb8e52a723f4faf65'; // your clientId
-const redirectUrl = 'http://127.0.0.1:5501/index.html';        // your redirect URL - must be localhost URL and/or HTTPS
+const clientId = 'f2ff519639164451a2d80c6b9ad2ae26'; // your clientId
+const redirectUrl = 'http://127.0.0.1:5500/index.html';        // your redirect URL - must be localhost URL and/or HTTPS
 
 const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const tokenEndpoint = "https://accounts.spotify.com/api/token";
 const scope = 'user-read-private user-read-email';
 
 let recommendsList=[];
+let recentAlbumsList=[];
 
 
 // Data structure that manages the current active token, caching it in localStorage
@@ -226,8 +227,8 @@ const getGenres= async ()=> {
   return genres;
 }
 
-const getRecommendations= async ()=> {
-  const response = await fetch("https://api.spotify.com/v1/recommendations?seed_genres=classical", {
+const getRecommendations= async (genre,limit)=> {
+  const response = await fetch(`https://api.spotify.com/v1/recommendations?seed_genres=${genre}&limit=${limit}`, {
     method: 'GET',
     headers: { 'Authorization': 'Bearer ' + currentToken.access_token },
   });
@@ -239,23 +240,68 @@ const getRecommendations= async ()=> {
 }
 
 const renderRecommends=()=>{
-  let recommendsHTML = ``;
-
-  recommendsHTML = recommendsList.map(
+  const recommendsHTML = recommendsList.map(
     (track) =>
-      `<div class="col-lg-2 music">
-        <div class="col-lg-8">
-          <img class="album-img-size" src=${track.album.images[0].url}>
+      `
+      <div  class="music-container-main border">
+        <img class="album-img-size" src=${track.album.images[0].url}>
+        <div class="music-container-title container hide-overflow fs-5">
+          ${track.name}
         </div>
-        <div class="col-lg-4">
-          <div>
-            ${track.name}
-          </div>
-          <div>
-            ${track.artists[0].name}
-          </div>
+        <div class="music-container-artist container hide-overflow fs-6">
+          ${track.artists[0].name}
         </div>
-      </div>`
+      </div>
+      `
+
+
   ).join('');
-  document.getElementById("recommend-section").innerHTML = recommendsHTML;
+
+  console.log("recommendsHTML",recommendsHTML);
+  document.getElementById("print-recommends").innerHTML = recommendsHTML;
 }
+
+const getRecentAlbums= async (limit)=> {
+  const response = await fetch(`https://api.spotify.com/v1/browse/new-releases?limit=${limit}&offset=0`, {
+    method: 'GET',
+    headers: { 'Authorization': 'Bearer ' + currentToken.access_token },
+  });
+  const albumsData = await response.json();
+  recentAlbumsList = albumsData.albums.items
+  console.log("Recent Albums",recentAlbumsList);
+  renderRecentAlbums();
+}
+
+const renderRecentAlbums=()=>{
+  const recentAlbumsHTML = recentAlbumsList.map(
+    (album) =>
+      `
+      <div  class="music-container-main border">
+        <img class="album-img-size" src=${album.images[0].url}>
+        <div class="music-container-title container hide-overflow fs-5">
+          ${album.name}
+        </div>
+        <div class="music-container-artist container hide-overflow fs-6">
+          ${album.artists[0].name}
+        </div>
+      </div>
+      `
+  ).join('');
+  console.log("HTML: ",recentAlbumsHTML)
+  document.getElementById("print-recent-albums").innerHTML = recentAlbumsHTML;
+}
+
+const getAllAlbums=()=>{ //이 함수 때문에 같은 id가 두번 쓰임(에러 발생 가능)
+  // renderTemplate("main-menu", "main-menu-template")
+  renderTemplate("main", "all-albums-template")
+  getRecentAlbums(21);
+}
+
+const getAllRecommendations=()=>{ //이 함수 때문에 같은 id가 두번 쓰임(에러 발생 가능)
+  // renderTemplate("main-menu", "main-menu-template")
+  renderTemplate("main", "all-recommends-template");
+  getRecommendations("k-pop",21);
+}
+
+getRecommendations("k-pop",7);
+getRecentAlbums(7);

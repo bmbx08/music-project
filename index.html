@@ -12,6 +12,7 @@
 
 <body>
 
+  <div id="main-menu"></div>
   <div id="main"></div>
   <div id="oauth"></div>
 
@@ -64,47 +65,80 @@
     <button id="logout-button" data-bind-onclick="logoutClick();">Log out</button>
     <br /><br />
     <button id="get-genres-button" data-bind-onclick="getGenres()">Get Genres</button>
-    <button id="get-recommendations-button" data-bind-onclick="getRecommendations()">Get Classic
-      Recommendations</button>
-
-
-    <section class="container" id="recommend-section">
-      <div class="sub-head-line">
-        장르별 곡 추천(제목,css필요)
-      </div>
-      <section id="genre-section" class="results-section">
-
-      </section>
-
-      <section class="results-section flex-column">
-        <div class="row" id="recommend-section">
-          
-          <div class="col-lg-2 music">
-            <div class="col-lg-8">
-              <img class="album-img-size" src="https://img-s-msn-com.akamaized.net/tenant/amp/entityid/BB1lRY9W.img?w=650&h=811&m=6&x=232&y=278&s=113&d=113">
-            </div>
-            <div class="col-lg-4">
-              <div>
-                곡 제목
-              </div>
-              <div>
-                가수
-              </div>
-            </div>
-          </div>
-        </div>
-        
-
-      </section>
-    </section>
-
     
+    
+    
+
+    <section id="content-section">
+      <section id="recent-albums-section" class="big-section"> <!--최신 앨범 섹션-->
+        <div class="section-title">최신 앨범 소개</div>
+        <!-- <button id="get-recent-albums-button" data-bind-onclick="getRecentAlbums(7)">Get New Albums</button> -->
+        <button id="get-full-albums-button" data-bind-onclick="getAllAlbums()">More</button>
+        <div id="print-recent-albums" class="music-section border">
+          
+        </div>
+      </section>
+
+      
+      <section id="genre-section">
+
+      </section>
+
+      <section id="recommends-section" class="big-section"> <!--추천 곡 섹션-->
+        <div class="section-title">K-POP 소개</div>
+        <!-- <button id="get-recommendations-button" data-bind-onclick="getRecommendations(k-pop,7)">Get K-POP
+          Recommendations</button> -->
+        <button id="get-all-recommends-button" data-bind-onclick="getAllRecommendations()">More</button>
+        <div id="print-recommends" class="music-section border">
+          
+          <!-- <div  class="music-container-main border">
+            <img class="album-img-size" src="https://img-s-msn-com.akamaized.net/tenant/amp/entityid/BB1lRY9W.img?w=650&h=811&m=6&x=232&y=278&s=113&d=113">
+            <div class="music-container-title container border hide-overflow fs-5">
+              곡 제목
+            </div>
+            <div class="music-container-artist container border hide-overflow fs-6">
+              가수
+            </div>
+          </div> 곡 아이콘 양식-->
+
+        </div>
+      </section>
+
+
+      
+
+
+      <br/><br/><br/><br/>
+    </section>
 
   </template>
 
+  <template id="all-albums-template">
+    <section id="recent-albums-section" class="big-section">
+      <div class="section-title">모든 최신 앨범</div>
+
+
+
+      <div id="print-recent-albums" class="music-section border">
+        
+      </div>
+    </section>
+  </template>
+
+  <template id="all-recommends-template">
+    <section id="recommends-section" class="big-section"> <!--추천 곡 섹션-->
+      <div class="section-title">K-POP 소개</div>
+
+
+
+      <div id="print-recommends" class="music-section border">
+
+      </div>
+    </section>
+  </template>
 
   <template id="oauth-template">
-    <h2>oAuth info</h2>
+    <!-- <h2>oAuth info</h2>
     <table>
       <tr>
         <td>Access token</td>
@@ -118,12 +152,9 @@
         <td>Expiration at</td>
         <td data-bind="expires">${getExpirationDate(expires_in)}</td>
       </tr>
-    </table>
+    </table> -->
   </template>
 
-  <template id="추천 show 출력">
-
-  </template>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   <script src="app.js" type="module"></script>

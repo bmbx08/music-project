@@ -38,19 +38,53 @@ button:hover {
     display: none;
 }
 
-.album-img-size{
-    max-width: 100%;
-    max-height: 250px;
-}
-
-
-
 .col {
     width: 80wh;
     height: 250px;
 }
 
-.music {
-    border: 1px solid black;
+#content-section{
+    padding-left: 25px;
+    padding-right: 25px;
 }
 
+.big-section{
+    margin-bottom: 20px;
+}
+
+.music-container-main{
+    display: inline-flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    border: 10px solid black;
+    border-radius: 25px;
+    width: 190px;
+    height:268px;
+    padding: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+
+}
+
+.album-img-size{
+    width: 150px;
+    height: 150px;
+    border-radius: 25px;
+    border: 1px solid;
+}
+
+.music-container-title{
+    padding: 0;
+    margin-top: 1em;
+}
+
+.music-container-artist{
+    padding: 0;
+    margin-top: 0.5em;
+}
+
+.hide-overflow{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
