@@ -1,0 +1,91 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+
+body {
+    font-family: "Pretendard-Regular";
+    margin: 0;
+    padding: 0;
+}
+
+/* 네브바 스타일 */
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 900;
+}
+
+.nav-box {
+    width: 30em;
+    height: 4.2em;
+    border-radius: 30em;
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    gap: 2em;
+}
+
+.nav-item {
+    gap: 15em;
+}
+
+.nav-link {
+    transition: all 0.5s;
+}
+
+.nav-link:hover {
+    font-weight: 900;
+    color: #0554f6;
+}
+
+.my-icon {
+    width: 3em;
+    height: 3em;
+    border-radius: 100%;
+    background-color: #000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.refresh {
+    width: 3em;
+    height: 3em;
+    border-radius: 100%;
+    background-color: #000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media screen and (max-width: 63rem) {
+    body {
+        padding: 2em;
+    }
+
+    .navbar {
+        position: sticky;
+        background-color: white;
+        top: 0;
+    }
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+/* 푸터 */
+.footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0 auto;
+    position : fixed;
+    bottom : 0;
+    margin-left: 100px;
+}
