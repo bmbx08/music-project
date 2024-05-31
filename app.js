@@ -8,7 +8,7 @@
  */
 
 const clientId = 'f2ff519639164451a2d80c6b9ad2ae26'; // your clientId
-const redirectUrl = 'http://127.0.0.1:5500/index.html';        // your redirect URL - must be localhost URL and/or HTTPS
+const redirectUrl = 'http://127.0.0.1:5501/index.html';        // your redirect URL - must be localhost URL and/or HTTPS
 
 const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const tokenEndpoint = "https://accounts.spotify.com/api/token";
@@ -16,6 +16,8 @@ const scope = 'user-read-private user-read-email';
 
 let recommendsList=[];
 let recentAlbumsList=[];
+let albumNum=7;
+//let recommendsNum=7;
 
 
 // Data structure that manages the current active token, caching it in localStorage
@@ -37,16 +39,13 @@ const currentToken = {
   }
 };
 
-// On page load, try to fetch auth code from current browser search URL
 const args = new URLSearchParams(window.location.search);
 const code = args.get('code');
 
-// If we find a code, we're in a callback, do a token exchange
 if (code) {
   const token = await getToken(code);
   currentToken.save(token);
 
-  // Remove code from URL so we can refresh correctly.
   const url = new URL(window.location.href);
   url.searchParams.delete("code");
 
@@ -54,14 +53,12 @@ if (code) {
   window.history.replaceState({}, document.title, updatedUrl);
 }
 
-// If we have a token, we're logged in, so fetch user data and render logged in template
 if (currentToken.access_token) {
   const userData = await getUserData();
   renderTemplate("main", "logged-in-template", userData);
   renderTemplate("oauth", "oauth-template", currentToken);
 }
 
-// Otherwise we're not logged in, so render the login template
 if (!currentToken.access_token) {
   renderTemplate("main", "login");
 }
@@ -93,10 +90,10 @@ async function redirectToSpotifyAuthorize() {
   };
 
   authUrl.search = new URLSearchParams(params).toString();
-  window.location.href = authUrl.toString(); // Redirect the user to the authorization server for login
+  window.location.href = authUrl.toString();
 }
 
-// Spotify API Calls
+// 스포티파이 API 호출
 async function getToken(code) {
   const code_verifier = localStorage.getItem('code_verifier');
 
@@ -181,7 +178,7 @@ function renderTemplate(targetId, templateId, data = null) {
       const prefix = targetType === "PROPERTY" ? "data." : "";
       const expression = prefix + attr.value.replace(/;\n\r\n/g, "");
 
-      // Maybe use a framework with more validation here ;)
+      // Maybe use a framework with more validation here
       try {
         ele[targetProp] = targetType === "PROPERTY" ? eval(expression) : () => { eval(expression) };
         ele.removeAttribute(attr.name);
@@ -195,25 +192,6 @@ function renderTemplate(targetId, templateId, data = null) {
   target.innerHTML = "";
   target.appendChild(clone);
 }
-
-
-
-
-//renderTemplate("main", "logged-in-template", userData);
-//template=document.getElementById("logged-in-template")
-//clone=template.content.cloneNode(true)
-
-//elements=template안에 모든 elements
-//bindingAttrs = data-bind, data-bind-onclick, data-bind-href, ...(data-bind로 시작하는 모든 element들)
-
-//만약 attr->data-bind="href",
-//target= "",
-//targetType= PROPERTY,
-//targetProp= innerHTML
-
-//prefix= data.
-//expression= data.href
-
 
 
 //자료 불러올 때 이 함수 사용하기
@@ -291,17 +269,14 @@ const renderRecentAlbums=()=>{
   document.getElementById("print-recent-albums").innerHTML = recentAlbumsHTML;
 }
 
-const getAllAlbums=()=>{ //이 함수 때문에 같은 id가 두번 쓰임(에러 발생 가능)
-  // renderTemplate("main-menu", "main-menu-template")
-  renderTemplate("main", "all-albums-template")
-  getRecentAlbums(21);
+const getMoreAlbums = () => {
+  albumNum+=14;
+  getRecentAlbums(albumNum);
 }
 
-const getAllRecommendations=()=>{ //이 함수 때문에 같은 id가 두번 쓰임(에러 발생 가능)
-  // renderTemplate("main-menu", "main-menu-template")
-  renderTemplate("main", "all-recommends-template");
-  getRecommendations("k-pop",21);
+const renderMain = () => {
+  getRecommendations("k-pop",14);
+  getRecentAlbums(7);
 }
 
-getRecommendations("k-pop",7);
-getRecentAlbums(7);
+renderMain();

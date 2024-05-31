@@ -72,11 +72,12 @@
     <section id="content-section">
       <section id="recent-albums-section" class="big-section"> <!--최신 앨범 섹션-->
         <div class="section-title">최신 앨범 소개</div>
-        <!-- <button id="get-recent-albums-button" data-bind-onclick="getRecentAlbums(7)">Get New Albums</button> -->
-        <button id="get-full-albums-button" data-bind-onclick="getAllAlbums()">More</button>
+        <button id="get-more-albums-button" data-bind-onclick="getMoreAlbums()">More</button>
+        
         <div id="print-recent-albums" class="music-section border">
           
         </div>
+
       </section>
 
       
@@ -86,9 +87,7 @@
 
       <section id="recommends-section" class="big-section"> <!--추천 곡 섹션-->
         <div class="section-title">K-POP 소개</div>
-        <!-- <button id="get-recommendations-button" data-bind-onclick="getRecommendations(k-pop,7)">Get K-POP
-          Recommendations</button> -->
-        <button id="get-all-recommends-button" data-bind-onclick="getAllRecommendations()">More</button>
+        <button id="reload-recommends-button" data-bind-onclick="getRecommendations('k-pop',14)">Reload</button>
         <div id="print-recommends" class="music-section border">
           
           <!-- <div  class="music-container-main border">
