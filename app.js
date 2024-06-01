@@ -250,7 +250,7 @@ const searchSpotify= async ()=> {
     headers: { 'Authorization': 'Bearer ' + currentToken.access_token },
   });
   const data= await response.json();
-  infoList = data.albums;
+  infoList = data.albums.items;
   console.log("ddd",infoList);
   renderSearch();
 }
@@ -261,12 +261,15 @@ const renderSearch =()=>{
   // let searchHTML ='';
   let searchHTML = infoList.map(
     (album) =>
-      `<div id="singer">
-    <div class="profile-img">
-      <img src=${album.items.images[0].url}>
-    </div>
-    <span class = 'singer-name'>${album.items.name}</span>
-  </div>`
+  `<div class="music-container-main border" onclick="window.location.href=''">
+        <img class="album-img-size" src=${album.images[0].url}>
+        <div class="music-container-title container hide-overflow fs-5">
+          
+        </div>
+        <div class="music-container-artist container hide-overflow fs-6">
+          ${album.name}
+        </div>
+      </div>`
   ).join('')
   document.getElementById("singer").innerHTML = searchHTML;
 }

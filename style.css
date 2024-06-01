@@ -1,7 +1,98 @@
-body {
-    margin: 1rem;
-    font-family: Arial, Helvetica, sans-serif;
+/* 주은 navbar css */
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
 }
+
+
+body {
+    font-family: "Pretendard-Regular";
+    margin: 0;
+    padding-top: 150px;
+    background-color: lightgray;
+}
+
+/* 네브바 스타일 */
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 900;
+}
+
+.nav-box {
+    width: 30em;
+    height: 4.2em;
+    border-radius: 30em;
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    gap: 2em;
+}
+
+.nav-item {
+    gap: 15em;
+}
+
+.nav-link {
+    transition: all 0.5s;
+}
+
+.nav-link:hover {
+    font-weight: 900;
+    color: #0554f6;
+}
+
+.my-icon {
+    width: 3em;
+    height: 3em;
+    border-radius: 100%;
+    background-color: #000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.refresh {
+    width: 3em;
+    height: 3em;
+    border-radius: 100%;
+    background-color: #000000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media screen and (max-width: 63rem) {
+    body {
+        padding: 2em;
+    }
+
+    .navbar {
+        position: sticky;
+        background-color: white;
+        top: 0;
+    }
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+/* 푸터 */
+.footer {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 0 auto;
+    position : fixed;
+    bottom : 0;
+    margin-left: 100px;
+}
+
+/* 기찬 API호출 css */
 
 tr:nth-child(even) {
     background-color: #eee;
@@ -17,6 +108,7 @@ td {
     margin-right: 1rem;
 }
 
+/*
 button {
     margin: 1rem 1rem 0 0;
     border: 0;
@@ -33,33 +125,73 @@ button {
 button:hover {
     background-color: #1fdf64;
 }
+*/
 
 #logged-in {
     display: none;
 }
 
+.col {
+    width: 80wh;
+    height: 250px;
+}
 
-#results {
-    margin-top: 20px;
+#content-section{
+    padding-left: 25px;
+    padding-right: 25px;
 }
-.result {
-    border-bottom: 1px solid #ccc;
-    padding: 10px 0;
-    display: flex;
-    align-items: center;
+
+.big-section{
+    margin-bottom: 20px;
 }
-.result img {
+
+/* #section-title{
+
+} */
+
+.music-container-main{
+    display: inline-flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    border: 10px solid black;
+    border-radius: 25px;
+    width: 190px;
+    height:268px;
+    padding: 20px;
     margin-right: 20px;
-    max-width: 64px;
-    max-height: 64px;
-}
-.result h3 {
-    margin: 0;
-}
-.result p {
-    margin: 5px 0;
+    margin-bottom: 20px;
 }
 
-.profile-img{
-    border-radius: 70%;
+.music-container-main:hover{
+    opacity: 0.5;
+    cursor: pointer;
+}
+
+.album-img-size{
+    width: 150px;
+    height: 150px;
+    border-radius: 25px;
+    border: 1px solid;
+}
+
+.music-container-title{
+    padding: 0;
+    margin-top: 1em;
+}
+
+.music-container-artist{
+    padding: 0;
+    margin-top: 0.5em;
+}
+
+/* .container{
+    margin-left: 20px;
+    margin-right: 20px;
+} */
+
+
+.hide-overflow{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
