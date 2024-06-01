@@ -8,7 +8,7 @@
  */
 
 const clientId = '96c43fa6babe4eca99c6f7639045bedd'; // your clientId
-const redirectUrl = 'http://127.0.0.1:5501/index.html';        // your redirect URL - must be localhost URL and/or HTTPS
+const redirectUrl = 'http://127.0.0.1:5500/index.html';        // your redirect URL - must be localhost URL and/or HTTPS
 
 const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const tokenEndpoint = "https://accounts.spotify.com/api/token";
@@ -245,12 +245,12 @@ let albumsList=[];
 const searchSpotify= async ()=> {
   const keyword = document.getElementById("search-input").value;
   console.log("keyword", keyword)
-  const response = await fetch(`https://api.spotify.com/v1/search?q=${keyword}&type=artist,track,ablbum,playlist&market=KR`, {
+  const response = await fetch(`https://api.spotify.com/v1/search?q=${keyword}&type=album&market=KR`, {
     method: 'GET',
     headers: { 'Authorization': 'Bearer ' + currentToken.access_token },
   });
   const data= await response.json();
-  infoList = data.artists
+  infoList = data.albums;
   console.log("ddd",infoList);
   renderSearch();
 }
@@ -258,14 +258,14 @@ searchSpotify();
 
 
 const renderSearch =()=>{
-  // let searchHTML =``;
-  searchHTML = infoList.map(
-    (artists) =>
+  // let searchHTML ='';
+  let searchHTML = infoList.map(
+    (album) =>
       `<div id="singer">
     <div class="profile-img">
-      <img src=${artists.items.images[0].url}>
+      <img src=${album.items.images[0].url}>
     </div>
-    <span class = 'singer-name'>${artists.items.name}</span>
+    <span class = 'singer-name'>${album.items.name}</span>
   </div>`
   ).join('')
   document.getElementById("singer").innerHTML = searchHTML;
