@@ -17,12 +17,12 @@
   <div id="oauth"></div>
 
   <template id="login">
-    <h1>Welcome to the OAuth2 PKCE Example</h1>
+    <h1>스포티파이 로그인하세요!</h1>
     <button id="login-button" data-bind-onclick="loginWithSpotifyClick();"> Log in with Spotify </button>
   </template>
 
   <template id="logged-in-template">
-    <h1>Logged in as <span data-bind="display_name"></span></h1>
+    <!-- <h1>Logged in as <span data-bind="display_name"></span></h1>
     <img width="150" data-bind-src="images[0].url" data-bind-alt="display_name" />
     <table>
       <tr>
@@ -59,81 +59,59 @@
         <td>Country</td>
         <td data-bind="country"></td>
       </tr>
-    </table>
+    </table> -->
 
     <button id="refresh-token-button" data-bind-onclick="refreshTokenClick();">Refresh Token</button>
     <button id="logout-button" data-bind-onclick="logoutClick();">Log out</button>
     <br /><br />
-    <button id="get-genres-button" data-bind-onclick="getGenres()">Get Genres</button>
+    
     
     
     
 
     <section id="content-section">
       <section id="recent-albums-section" class="big-section"> <!--최신 앨범 섹션-->
-        <div class="section-title">최신 앨범 소개</div>
-        <button id="get-more-albums-button" data-bind-onclick="getMoreAlbums()">More</button>
-        
+        <div class="section-title">Recent Albums📀</div>
+
+        <button id="get-more-albums-button" class="btn btn-secondary" data-bind-onclick="getMoreAlbums()">More</button>
+
         <div id="print-recent-albums" class="music-section border">
-          
         </div>
 
       </section>
-
       
-      <section id="genre-section">
+      <section id="popular-playlists-section" class="big-section"> <!--인기 플레이리스트 섹션-->
+        <div class="section-title">Popular Playlists 🎧 •၊၊||၊|။||||။‌‌‌‌‌၊|•</div>
+        <div id="print-playlists" class="music-section border">
 
+
+        </div>
+      </section>
+      
+      
+      <section id="print-genres">
+        
       </section>
 
       <section id="recommends-section" class="big-section"> <!--추천 곡 섹션-->
-        <div class="section-title">K-POP 소개</div>
-        <button id="reload-recommends-button" data-bind-onclick="getRecommendations('k-pop',14)">Reload</button>
+        <div class="section-title">K-POP Tracks🎵</div>
+        <button id="reload-recommends-button" class="btn btn-secondary" data-bind-onclick="getRecommendations('k-pop',7)">Reload</button>
         <div id="print-recommends" class="music-section border">
-          
-          <!-- <div  class="music-container-main border">
-            <img class="album-img-size" src="https://img-s-msn-com.akamaized.net/tenant/amp/entityid/BB1lRY9W.img?w=650&h=811&m=6&x=232&y=278&s=113&d=113">
-            <div class="music-container-title container border hide-overflow fs-5">
-              곡 제목
-            </div>
-            <div class="music-container-artist container border hide-overflow fs-6">
-              가수
-            </div>
-          </div> 곡 아이콘 양식-->
+
 
         </div>
       </section>
 
-
+      
       
 
 
       <br/><br/><br/><br/>
+
+      <!--<button id="get-genres-button" data-bind-onclick="getGenres()">Get Genres</button>
+      <button id="acoustic-button" class="genre-button" data-bind-onclick="getRecommendations('acoustic',14)">acoustic🪕</button>-->
     </section>
 
-  </template>
-
-  <template id="all-albums-template">
-    <section id="recent-albums-section" class="big-section">
-      <div class="section-title">모든 최신 앨범</div>
-
-
-
-      <div id="print-recent-albums" class="music-section border">
-        
-      </div>
-    </section>
-  </template>
-
-  <template id="all-recommends-template">
-    <section id="recommends-section" class="big-section"> <!--추천 곡 섹션-->
-      <div class="section-title">K-POP 소개</div>
-
-
-
-      <div id="print-recommends" class="music-section border">
-
-      </div>
-    </section>
   </template>
 
   <template id="oauth-template">

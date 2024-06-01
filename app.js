@@ -7,16 +7,20 @@
  * https://developer.spotify.com/documentation/web-api/tutorials/code-pkce-flow
  */
 
-const clientId = 'f2ff519639164451a2d80c6b9ad2ae26'; // your clientId
+const clientId = 'd94ccf537c8b48998f64318beb1d4b31'; // your clientId
 const redirectUrl = 'http://127.0.0.1:5501/index.html';        // your redirect URL - must be localhost URL and/or HTTPS
 
 const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const tokenEndpoint = "https://accounts.spotify.com/api/token";
 const scope = 'user-read-private user-read-email';
 
-let recommendsList=[];
+let genreList=[];
 let recentAlbumsList=[];
+let playlistList=[];
+let recommendsList=[];
 let albumNum=7;
+let albumToggle= false;
+
 //let recommendsNum=7;
 
 
@@ -194,50 +198,32 @@ function renderTemplate(targetId, templateId, data = null) {
 }
 
 
-//자료 불러올 때 이 함수 사용하기
+//여기서부터 우리 함수
 const getGenres= async ()=> {
   const response = await fetch("https://api.spotify.com/v1/recommendations/available-genre-seeds", {
     method: 'GET',
     headers: { 'Authorization': 'Bearer ' + currentToken.access_token },
   });
-  let genres= await response.json();
-  console.log("genres", genres);
-  return genres;
+  let data= await response.json();
+  genreList = data.genres;
+  console.log("genres", data);
+  console.log("genreList", genreList);
+  renderGenres();
 }
 
-const getRecommendations= async (genre,limit)=> {
-  const response = await fetch(`https://api.spotify.com/v1/recommendations?seed_genres=${genre}&limit=${limit}`, {
-    method: 'GET',
-    headers: { 'Authorization': 'Bearer ' + currentToken.access_token },
-  });
-  let recommends= await response.json();
-  recommendsList = recommends.tracks;
-  console.log("Recommendations",recommends);
-  console.log("RecommendsList",recommendsList);
-  renderRecommends();
-}
-
-const renderRecommends=()=>{
-  const recommendsHTML = recommendsList.map(
-    (track) =>
+const renderGenres = () => {
+  const genresHTML = genreList.map(
+    (genre) =>
       `
-      <div  class="music-container-main border">
-        <img class="album-img-size" src=${track.album.images[0].url}>
-        <div class="music-container-title container hide-overflow fs-5">
-          ${track.name}
-        </div>
-        <div class="music-container-artist container hide-overflow fs-6">
-          ${track.artists[0].name}
-        </div>
-      </div>
-      `
-
-
+      <button id="${genre}-button" class="genre-button" data-bind-onclick="getRecommendations('${genre}',14)">
+        ${genre}
+      </button>
+      ` //장르 버튼 작동 안함, 에러 찾아보기
   ).join('');
 
-  console.log("recommendsHTML",recommendsHTML);
-  document.getElementById("print-recommends").innerHTML = recommendsHTML;
+  document.getElementById("print-genres").innerHTML = genresHTML;
 }
+
 
 const getRecentAlbums= async (limit)=> {
   const response = await fetch(`https://api.spotify.com/v1/browse/new-releases?limit=${limit}&offset=0`, {
@@ -245,8 +231,7 @@ const getRecentAlbums= async (limit)=> {
     headers: { 'Authorization': 'Bearer ' + currentToken.access_token },
   });
   const albumsData = await response.json();
-  recentAlbumsList = albumsData.albums.items
-  console.log("Recent Albums",recentAlbumsList);
+  recentAlbumsList = albumsData.albums.items;
   renderRecentAlbums();
 }
 
@@ -254,7 +239,7 @@ const renderRecentAlbums=()=>{
   const recentAlbumsHTML = recentAlbumsList.map(
     (album) =>
       `
-      <div  class="music-container-main border">
+      <div class="music-container-main border" onclick="window.location.href='${album.external_urls.spotify}'">
         <img class="album-img-size" src=${album.images[0].url}>
         <div class="music-container-title container hide-overflow fs-5">
           ${album.name}
@@ -265,18 +250,86 @@ const renderRecentAlbums=()=>{
       </div>
       `
   ).join('');
-  console.log("HTML: ",recentAlbumsHTML)
   document.getElementById("print-recent-albums").innerHTML = recentAlbumsHTML;
 }
 
-const getMoreAlbums = () => {
-  albumNum+=14;
-  getRecentAlbums(albumNum);
+const getPopularPlaylists = async (country,limit)=> {
+  const response = await fetch(`https://api.spotify.com/v1/browse/featured-playlists?locale=en_${country}&limit=${limit}`, {
+    method: 'GET',
+    headers: { 'Authorization': 'Bearer ' + currentToken.access_token },
+  });
+  let data= await response.json();
+  console.log("playlists", data);
+  playlistList = data.playlists.items;
+  renderPopularPlaylists();
 }
 
+const renderPopularPlaylists=()=>{
+  const playlistsHTML = playlistList.map(
+    (playlist) =>
+      `
+      <div class="music-container-main border" onclick="window.location.href='${playlist.external_urls.spotify}'">
+        <img class="album-img-size" src=${playlist.images[0].url}>
+        <div class="music-container-title container hide-overflow fs-5">
+          ${playlist.name}
+        </div>
+        <div class="music-container-artist container hide-overflow fs-6">
+          ${playlist.description}
+        </div>
+      </div>
+      `
+  ).join('');
+
+  document.getElementById("print-playlists").innerHTML = playlistsHTML;
+}
+
+
+const getRecommendations= async (genre,limit)=> {
+  const response = await fetch(`https://api.spotify.com/v1/recommendations?seed_genres=${genre}&limit=${limit}`, {
+    method: 'GET',
+    headers: { 'Authorization': 'Bearer ' + currentToken.access_token },
+  });
+  let recommends= await response.json();
+  console.log("recommends", recommends);
+  recommendsList = recommends.tracks;
+  renderRecommends();
+}
+
+const renderRecommends=()=>{
+  const recommendsHTML = recommendsList.map(
+    (track) =>
+      `
+      <div class="music-container-main border" onclick="window.location.href='${track.external_urls.spotify}'">
+        <img class="album-img-size" src=${track.album.images[0].url}>
+        <div class="music-container-title container hide-overflow fs-5">
+          ${track.name}
+        </div>
+        <div class="music-container-artist container hide-overflow fs-6">
+          ${track.artists[0].name}
+        </div>
+      </div>
+      `
+  ).join('');
+
+  document.getElementById("print-recommends").innerHTML = recommendsHTML;
+}
+
+
+const getMoreAlbums = () => {
+  if(albumToggle == false){
+    getRecentAlbums(7);
+    albumToggle = true;
+  } else{
+    getRecentAlbums(21);
+    albumToggle = false;
+  }
+}
+
+
 const renderMain = () => {
-  getRecommendations("k-pop",14);
+  getRecommendations("k-pop",7);
   getRecentAlbums(7);
+  getPopularPlaylists('US',7)
 }
 
 renderMain();
