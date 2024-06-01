@@ -1,13 +1,122 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music-project</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-    
-    <script src="main.js"></script>
+
+  <div id="main"></div>
+  <div id="oauth"></div>
+
+  <template id="login">
+    <h1>Welcome to the OAuth2 PKCE Example</h1>
+    <button id="login-button" data-bind-onclick="loginWithSpotifyClick();"> Log in with Spotify </button>
+  </template>
+
+  <template id="logged-in-template">
+    <h1>Logged in as <span data-bind="display_name"></span></h1>
+    <img width="150" data-bind-src="images[0].url" data-bind-alt="display_name" />
+    <table>
+      <tr>
+        <td>Display name</td>
+        <td data-bind="display_name"></td>
+      </tr>
+      <tr>
+        <td>Id</td>
+        <td data-bind="id"></td>
+      </tr>
+      <tr>
+        <td>Email</td>
+        <td data-bind="email"></td>
+      </tr>
+      <tr>
+        <td>Spotify URI</td>
+        <td>
+          <a data-bind="external_urls.spotify" data-bind-href="external_urls.spotify"></a>
+        </td>
+      </tr>
+      <tr>
+        <td>Link </dt>
+        <td>
+          <a data-bind="href" data-bind-href="href"></a>
+        </td>
+      </tr>
+      <tr>
+        <td>Profile Image</td>
+        <td>
+          <a data-bind-href="images[0].url" data-bind="images[0].url"></a>
+        </td>
+      </tr>
+      <tr>
+        <td>Country</td>
+        <td data-bind="country"></td>
+      </tr>
+    </table>  
+
+    <button id="refresh-token-button" data-bind-onclick="refreshTokenClick();">Refresh Token</button>
+    <button id="logout-button" data-bind-onclick="logoutClick();">Log out</button>
+    <br /><br />
+    <button id="get-genres-button" data-bind-onclick="getGenres()">Get Genres</button>
+    <button id="get-recommendations-button" data-bind-onclick="getRecommendations()">Get Classic
+      Recommendations</button>
+
+      <div id="print-recent-albums" class="music-section">
+        플레이리스트
+        </div>
+
+        <!-- 검색창 -->
+      <input id="search-input">
+      <button id = "input-button" data-bind-onclick = "searchSpotify()">검색</button>
+
+      <!-- 아티스트 정보 출력 -->
+      <div id="singer">
+        <div class="profile-img">
+          <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPpZ_qZcz8ZWwrrFvkeW-_--VwBGv_ZhevWQ&s">
+        </div>
+        <span class = 'singer-name'>에스파</span>
+      </div>
+
+      <!-- 키워드 관련 앨범  -->
+      <div id="main-content">
+        <div class = 'singer-playlist'>Amageddon</div>
+        <div class="album-img">
+          <img src="https://image.bugsm.co.kr/album/images/500/41011/4101141.jpg">
+        </div>  
+      </div>
+
+  </template>
+
+  <template id="oauth-template">
+    <h2>oAuth info</h2>
+    <table>
+      <tr>
+        <td>Access token</td>
+        <td data-bind="access_token"></td>
+      </tr>
+      <tr>
+        <td>Refresh token</td>
+        <td data-bind="refresh_token"></td>
+      </tr>
+      <tr>
+        <td>Expiration at</td>
+        <td data-bind="expires">${getExpirationDate(expires_in)}</td>
+      </tr>
+    </table>
+  </template>
+
+  <template id="추천 show 출력">
+
+  </template>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+  <script src="app.js" type="module"></script>
 </body>
+
 </html>
