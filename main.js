@@ -8,7 +8,7 @@
  */
 
 const clientId = 'd94ccf537c8b48998f64318beb1d4b31'; // your clientId
-const redirectUrl = 'http://127.0.0.1:5501/index.html';        // your redirect URL - must be localhost URL and/or HTTPS
+const redirectUrl = 'http://127.0.0.1:5501/main.html';        // your redirect URL - must be localhost URL and/or HTTPS
 
 const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const tokenEndpoint = "https://accounts.spotify.com/api/token";
@@ -59,7 +59,9 @@ if (code) {
 
 if (currentToken.access_token) {
   const userData = await getUserData();
+  renderTemplate("navbar-target", "navbar-template");
   renderTemplate("main", "logged-in-template", userData);
+  renderTemplate("footer-target", "footer-template");
   renderTemplate("oauth", "oauth-template", currentToken);
 }
 
