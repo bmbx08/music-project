@@ -8,7 +8,7 @@
  */
 
 const clientId = 'f2ff519639164451a2d80c6b9ad2ae26'; // your clientId
-const redirectUrl = 'http://127.0.0.1:5501/main.html';        // your redirect URL - must be localhost URL and/or HTTPS
+const redirectUrl = 'http://127.0.0.1:5501/main.html'; // your redirect URL - must be localhost URL and/or HTTPS
 
 const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const tokenEndpoint = "https://accounts.spotify.com/api/token";
@@ -19,7 +19,7 @@ let recentAlbumsList=[];
 let playlistList=[];
 let recommendsList=[];
 let albumNum=7;
-let albumToggle= false;
+let albumToggle= true;
 
 //let recommendsNum=7;
 
@@ -241,7 +241,7 @@ const renderRecentAlbums=()=>{
   const recentAlbumsHTML = recentAlbumsList.map(
     (album) =>
       `
-      <div class="music-container-main border" onclick="window.location.href='${album.external_urls.spotify}'">
+      <div class="music-container-main" onclick="window.location.href='${album.external_urls.spotify}'">
         <img class="album-img-size" src=${album.images[0].url}>
         <div class="music-container-title container hide-overflow fs-5">
           ${album.name}
@@ -270,7 +270,7 @@ const renderPopularPlaylists=()=>{
   const playlistsHTML = playlistList.map(
     (playlist) =>
       `
-      <div class="music-container-main border" onclick="window.location.href='${playlist.external_urls.spotify}'">
+      <div class="music-container-main" onclick="window.location.href='${playlist.external_urls.spotify}'">
         <img class="album-img-size" src=${playlist.images[0].url}>
         <div class="music-container-title container hide-overflow fs-5">
           ${playlist.name}
@@ -301,7 +301,7 @@ const renderRecommends=()=>{
   const recommendsHTML = recommendsList.map(
     (track) =>
       `
-      <div class="music-container-main border" onclick="window.location.href='${track.external_urls.spotify}'">
+      <div class="music-container-main" onclick="window.location.href='${track.external_urls.spotify}'">
         <img class="album-img-size" src=${track.album.images[0].url}>
         <div class="music-container-title container hide-overflow fs-5">
           ${track.name}
@@ -315,6 +315,40 @@ const renderRecommends=()=>{
 
   document.getElementById("print-recommends").innerHTML = recommendsHTML;
 }
+
+let searchList=[];
+
+// 검색 기능
+const searchSpotify= async ()=> {
+  const keyword = document.getElementById("search-input").value;
+  console.log("keyword", keyword)
+  const response = await fetch(`https://api.spotify.com/v1/search?q=${keyword}&type=album&market=KR`, {
+    method: 'GET',
+    headers: { 'Authorization': 'Bearer ' + currentToken.access_token },
+  });
+  const data= await response.json();
+  infoList = data.albums.items;
+  renderSearch();
+}
+searchSpotify();
+
+
+const renderSearch =()=>{
+  let searchHTML = infoList.map(
+    (search) =>
+  `<div class="music-container-main border" onclick="window.location.href=''">
+        <img class="album-img-size" src=${search.images[0].url}>
+        <div class="music-container-title container hide-overflow fs-5">
+          
+        </div>
+        <div class="music-container-artist container hide-overflow fs-6">
+          ${search.name}
+        </div>
+      </div>`
+  ).join('')
+  document.getElementById("print-search-results").innerHTML = searchHTML;
+}
+
 
 
 const getMoreAlbums = () => {
