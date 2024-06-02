@@ -321,9 +321,11 @@ const getMoreAlbums = () => {
   if(albumToggle == false){
     getRecentAlbums(7);
     albumToggle = true;
+    document.getElementById("get-more-albums-button").innerHTML = "More"
   } else{
     getRecentAlbums(21);
     albumToggle = false;
+    document.getElementById("get-more-albums-button").innerHTML = "Less"
   }
 }
 
