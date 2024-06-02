@@ -10,8 +10,8 @@
 body {
     font-family: "Pretendard-Regular";
     margin: 0;
-    padding-top: 150px;
-    background-color: lightgray;
+    background-color: white;
+    padding-top: 100px;
 }
 
 /* 네브바 스타일 */
@@ -20,16 +20,21 @@ body {
     font-weight: 900;
 }
 
+.navbar{
+    background-color: darkgray;
+}
+
 .nav-box {
-    width: 30em;
-    height: 4.2em;
-    border-radius: 30em;
-    background-color: white;
+    /* width: 30em;
+    height: 4.2em; */
+    text-align: center;
+    /* border-radius: 30em;
+    background-color: white; */
     justify-content: center;
     align-items: center;
-    margin-top: 0.5em;
-    margin-bottom: 0.5em;
-    gap: 2em;
+    /* margin-top: 0.5em;
+    margin-bottom: 0.5em; */
+    gap: 1em;
 }
 
 .nav-item {
@@ -37,6 +42,7 @@ body {
 }
 
 .nav-link {
+    color: black;
     transition: all 0.5s;
 }
 
@@ -44,6 +50,7 @@ body {
     font-weight: 900;
     color: #0554f6;
 }
+
 
 .my-icon {
     width: 3em;
@@ -54,6 +61,7 @@ body {
     justify-content: center;
     align-items: center;
 }
+
 .refresh {
     width: 3em;
     height: 3em;
@@ -81,8 +89,8 @@ a {
     color: black;
 }
 
-/* 푸터 */
-.footer {
+/* 푸터
+ .footer {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -90,7 +98,9 @@ a {
     position : fixed;
     bottom : 0;
     margin-left: 100px;
-}
+} */
+
+
 
 /* 기찬 API호출 css */
 
@@ -160,6 +170,7 @@ button:hover {
     padding: 20px;
     margin-right: 20px;
     margin-bottom: 20px;
+    background-color:white;
 }
 
 .music-container-main:hover{

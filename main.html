@@ -25,8 +25,8 @@
   <!--네브바-->
   <template id="navbar-template">  
     <header>
-      <nav class="navbar fixed-top bg-transparent menus">
-        <div class="container">
+      <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container-fluid ms-4 me-4">
           <a class="brand" href="mainpage.html">
             <div class="logo">
               <img src="./image/logo.png" style="width: 8vw" />
@@ -36,23 +36,33 @@
             <input type="text" placeholder="검색어 입력하세요" />
             <button id="searchButton" type="submit">🍳</button>
           </div>
-          <div class="d-flex nav-box">
+          <div class="d-flex navbar-nav nav-box">
             <div class="nav-item">
-              <a class="nav-link" href="./.html">My Playlist</a>
+              <a class="nav-link" href="#">My Playlist</a>
             </div>
             <div class="nav-item">
-              <a class="nav-link" href="./.html">추천 플레이리스트</a>
+              <a class="nav-link" href="#">추천 플레이리스트</a>
             </div>
             <div class="nav-item">
-              <a class="nav-link" href="./.html">최근 앨범</a>
+              <a class="nav-link" href="#">최근 앨범</a>
             </div>
-            <div class="nav-item my-icon">
+
+            <li class="nav-item my-icon dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-user fa-lg ms-3" style="color: #ffffff"></i>
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                <li><a class="dropdown-item" href="#" data-bind-onclick="renderTemplate();">My Profile</a></li>
+                <li><a class="dropdown-item" href="#" data-bind-onclick="logoutClick();">Log out</a></li>
+              </ul>
+            </li>
+            <!-- <div class="nav-item my-icon">
               <a class="nav-link" href="./mypage.html">
                 <i class="fa-solid fa-user fa-lg" style="color: #ffffff"></i>
               </a>
-            </div>
+            </div> -->
             <div class="nav-item refresh"> <!-- refresh 토큰 -->
-              <a class="nav-link" href="./.html">
+              <a class="nav-link" type="button" data-bind-onclick="refreshTokenClick();">
                 <i class="fa-solid fa-retweet fa-lg" style="color: #ffffff"></i>
               </a>
             </div>
@@ -62,9 +72,46 @@
     </header>
   </template>
 
+
   <!-- 푸터 -->
   <template id="footer-template"> 
-    <div class="footer-section">
+    <div class="container">
+      <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
+        <ul class="nav flex-column">
+          <li class="nav-item mb-2"><h3>Int Music</h3></li>
+          <li class="nav-item mb-2"><p class="mb-0 text-muted">Copyright &copy; Polaris JS-1팀</p></li>
+        </ul>
+    
+        <a href="/" class="col-md-4 d-flex align-items-center justify-content-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
+          <svg class="bi me-2" width="40" height="32"><use xlink:href="#bootstrap"/></svg>
+        </a>
+    
+        <ul class="nav col-md-4 justify-content-end">
+          <li class="nav-item ms-2"><a href="https://www.youtube.com/"
+            aria-label="YouTube"
+            target="_blank"
+            rel="noopener noreferrer">
+              <i class="fa-brands fa-xl fa-youtube"></i>
+            </a></li>
+          <li class="nav-item ms-2"><a href="https://github.com/bmbx08/music-project"
+            aria-label="GitHub"
+            target="_blank"
+            rel="noopener noreferrer">
+              <i class="fa-brands fa-xl fa-github"></i>
+            </a></li>
+          <li class="nav-item ms-2 me-2"><a href="https://www.pipc.go.kr/np/default/page.do?mCode=H010000000"
+            aria-label="개인정보처리방침"
+            target="_blank"
+            rel="noopener noreferrer">
+              <p>개인정보처리방침</p>
+            </a></li>
+        </ul>
+      </footer>
+    </div>
+  </template>
+  
+    <!--old footer-->
+    <!-- <div class="footer-section">
       <footer class="container footer">
         <div class="left">
           <h3>Int Music</h3>
@@ -97,9 +144,7 @@
           </a>
         </div>
       </footer>
-    </div>
-  </template>
-
+    </div> -->
 
   <template id="logged-in-template">
     <!-- <h1>Logged in as <span data-bind="display_name"></span></h1>
@@ -140,9 +185,6 @@
         <td data-bind="country"></td>
       </tr>
     </table> -->
-
-    <button id="refresh-token-button" data-bind-onclick="refreshTokenClick();">Refresh Token</button>
-    <button id="logout-button" data-bind-onclick="logoutClick();">Log out</button>
     <br /><br />
     
     
@@ -151,18 +193,19 @@
 
     <section id="content-section">
       <section id="recent-albums-section" class="big-section"> <!--최신 앨범 섹션-->
-        <div class="section-title">Recent Albums📀</div>
+        <h4 class="section-title">Recent Albums📀</h4>
+          
+        <button id="get-more-albums-button" class="btn btn-secondary" data-bind-onclick="getMoreAlbums();">More</button>
 
-        <button id="get-more-albums-button" class="btn btn-secondary" data-bind-onclick="getMoreAlbums()">More</button>
-
-        <div id="print-recent-albums" class="music-section border">
+        <div id="print-recent-albums" class="music-section">
+          
         </div>
 
       </section>
       
       <section id="popular-playlists-section" class="big-section"> <!--인기 플레이리스트 섹션-->
-        <div class="section-title">Popular Playlists 🎧 •၊၊||၊|။||||။‌‌‌‌‌၊|•</div>
-        <div id="print-playlists" class="music-section border">
+        <h4 class="section-title">Popular Playlists 🎧 •၊၊||၊|။||||။‌‌‌‌‌၊|•</h4>
+        <div id="print-playlists" class="music-section">
 
 
         </div>
@@ -174,9 +217,9 @@
       </section>
 
       <section id="recommends-section" class="big-section"> <!--추천 곡 섹션-->
-        <div class="section-title">K-POP Tracks🎵</div>
-        <button id="reload-recommends-button" class="btn btn-secondary" data-bind-onclick="getRecommendations('k-pop',7)">Reload</button>
-        <div id="print-recommends" class="music-section border">
+        <h4 class="section-title">K-POP Tracks🎵</h4>
+        <button id="reload-recommends-button" class="btn btn-secondary" data-bind-onclick="getRecommendations('k-pop',7);">Reload</button>
+        <div id="print-recommends" class="music-section">
 
 
         </div>

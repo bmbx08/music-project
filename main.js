@@ -7,7 +7,7 @@
  * https://developer.spotify.com/documentation/web-api/tutorials/code-pkce-flow
  */
 
-const clientId = 'd94ccf537c8b48998f64318beb1d4b31'; // your clientId
+const clientId = 'f2ff519639164451a2d80c6b9ad2ae26'; // your clientId
 const redirectUrl = 'http://127.0.0.1:5501/main.html';        // your redirect URL - must be localhost URL and/or HTTPS
 
 const authorizationEndpoint = "https://accounts.spotify.com/authorize";
@@ -159,6 +159,7 @@ async function logoutClick() {
 async function refreshTokenClick() {
   const token = await refreshToken();
   currentToken.save(token);
+  console.log(currentToken);
   renderTemplate("oauth", "oauth-template", currentToken);
 }
 
@@ -170,9 +171,8 @@ async function refreshTokenClick() {
 function renderTemplate(targetId, templateId, data = null) {
   const template = document.getElementById(templateId);
   const clone = template.content.cloneNode(true);
-  console.log(clone);
 
-  const elements = clone.querySelectorAll("*");
+  const elements = clone.querySelectorAll("*"); 
   elements.forEach(ele => {
     const bindingAttrs = [...ele.attributes].filter(a => a.name.startsWith("data-bind"));
 
@@ -201,30 +201,30 @@ function renderTemplate(targetId, templateId, data = null) {
 
 
 //여기서부터 우리 함수
-const getGenres= async ()=> {
-  const response = await fetch("https://api.spotify.com/v1/recommendations/available-genre-seeds", {
-    method: 'GET',
-    headers: { 'Authorization': 'Bearer ' + currentToken.access_token },
-  });
-  let data= await response.json();
-  genreList = data.genres;
-  console.log("genres", data);
-  console.log("genreList", genreList);
-  renderGenres();
-}
+// const getGenres= async ()=> {
+//   const response = await fetch("https://api.spotify.com/v1/recommendations/available-genre-seeds", {
+//     method: 'GET',
+//     headers: { 'Authorization': 'Bearer ' + currentToken.access_token },
+//   });
+//   let data= await response.json();
+//   genreList = data.genres;
+//   console.log("genres", data);
+//   console.log("genreList", genreList);
+//   renderGenres();
+// }
 
-const renderGenres = () => {
-  const genresHTML = genreList.map(
-    (genre) =>
-      `
-      <button id="${genre}-button" class="genre-button" data-bind-onclick="getRecommendations('${genre}',14)">
-        ${genre}
-      </button>
-      ` //장르 버튼 작동 안함, 에러 찾아보기
-  ).join('');
+// const renderGenres = () => {
+//   const genresHTML = genreList.map(
+//     (genre) =>
+//       `
+//       <button id="${genre}-button" class="genre-button" data-bind-onclick="getRecommendations('${genre}',14)">
+//         ${genre}
+//       </button>
+//       ` //장르 버튼 작동 안함, 에러 찾아보기
+//   ).join('');
 
-  document.getElementById("print-genres").innerHTML = genresHTML;
-}
+//   document.getElementById("print-genres").innerHTML = genresHTML;
+// }
 
 
 const getRecentAlbums= async (limit)=> {
