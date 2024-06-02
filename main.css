@@ -1,3 +1,10 @@
+@font-face{
+    font-family: '둥글';
+    font-style: 'normal';
+    font-weight: 400;
+    src: url('KCC-Ganpan.woff');
+}
+
 /* 주은 navbar css */
 @font-face {
     font-family: 'Pretendard-Regular';
@@ -8,10 +15,11 @@
 
 
 body {
-    font-family: "Pretendard-Regular";
+    font-family: '둥글';
     margin: 0;
     background-color: white;
     padding-top: 100px;
+    padding-left: 50px;
 }
 
 /* 네브바 스타일 */
@@ -89,6 +97,10 @@ a {
     color: black;
 }
 
+.footer{
+    max-width: 1600px;
+}
+
 /* 푸터
  .footer {
     display: flex;
@@ -136,6 +148,10 @@ button:hover {
     background-color: #1fdf64;
 }
 */
+
+.section-title{
+    font-weight: bold;
+}
 
 #logged-in {
     display: none;
