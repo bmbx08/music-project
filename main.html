@@ -27,14 +27,14 @@
     <header>
       <nav class="navbar navbar-expand-lg fixed-top">
         <div class="container-fluid ms-4 me-4">
-          <a class="brand" href="mainpage.html">
+          <a class="brand" data-bind-onclick="gotoMainPage();">
             <div>
               <img class="logo" src="./image/logo.png" style="width: 8vw" />
             </div>
           </a>
           <div class="search-box">
-            <input type="text" placeholder="Search tracks.." />
-            <button id="searchButton" type="submit">🍳</button>
+            <input id="search-input" placeholder="Search tracks.." />
+            <button id="input-button" data-bind-onclick="searchSpotify();">🔍</button>
           </div>
           <div class="d-flex navbar-nav nav-box">
             <div class="nav-item">
@@ -150,13 +150,10 @@
         <td data-bind="country"></td>
       </tr>
     </table> -->
-    <br /><br />
-    
-    
-    
+
     
 
-    <section id="content-section">
+    <section class="content-section">
       <!-- <nav class="navbar navbar-light bg-light">
         <form class="form-inline">
           <div class="input-group">
@@ -214,19 +211,35 @@
 
         </div>
       </section>
-      <br/><br/>
-
-      
-      
-
-
-    
 
       <!--<button id="get-genres-button" data-bind-onclick="getGenres()">Get Genres</button>
       <button id="acoustic-button" class="genre-button" data-bind-onclick="getRecommendations('acoustic',14)">acoustic🪕</button>-->
     </section>
 
   </template>
+
+
+  <template id="search-result-template">
+    <section class="content-section">
+      <section id="search-results-section" class="big-section"> <!--검색 결과 섹션-->
+        <div class="row d-flex mb-3">
+          <div class="col-4">
+            <h4 class="section-title">Search Results for.. :<h4 id="search-value"></h4></h4>
+          </div>
+          <div class="col-7 d-flex justify-content-end">
+            <!-- <button id="reload-recommends-button" class="btn btn-secondary" data-bind-onclick="getRecommendations('k-pop',7);">Reload</button> -->
+          </div>
+          <div class="col-1"></div>
+        </div>
+
+        <div id="print-search-results" class="music-section">
+
+
+        </div>
+      </section>
+    </section>
+  </template>
+
 
   <template id="oauth-template">
     <!-- <h2>oAuth info</h2>

@@ -7,17 +7,21 @@
  * https://developer.spotify.com/documentation/web-api/tutorials/code-pkce-flow
  */
 
-const clientId = 'f2ff519639164451a2d80c6b9ad2ae26'; // your clientId
+const clientId = '519935b1ecd44c738aacd2934f9993b6'; // your clientId
 const redirectUrl = 'http://127.0.0.1:5501/main.html'; // your redirect URL - must be localhost URL and/or HTTPS
 
 const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const tokenEndpoint = "https://accounts.spotify.com/api/token";
 const scope = 'user-read-private user-read-email';
 
+
+let userData;
 let genreList=[];
 let recentAlbumsList=[];
 let playlistList=[];
 let recommendsList=[];
+let keyword;
+let searchList=[];
 let albumNum=7;
 let albumToggle= true;
 
@@ -58,7 +62,7 @@ if (code) {
 }
 
 if (currentToken.access_token) {
-  const userData = await getUserData();
+  userData = await getUserData();
   renderTemplate("navbar-target", "navbar-template");
   renderTemplate("main", "logged-in-template", userData);
   renderTemplate("footer-target", "footer-template");
@@ -316,37 +320,39 @@ const renderRecommends=()=>{
   document.getElementById("print-recommends").innerHTML = recommendsHTML;
 }
 
-let searchList=[];
+
 
 // 검색 기능
 const searchSpotify= async ()=> {
-  const keyword = document.getElementById("search-input").value;
-  console.log("keyword", keyword)
+  keyword = document.getElementById("search-input").value;
   const response = await fetch(`https://api.spotify.com/v1/search?q=${keyword}&type=album&market=KR`, {
     method: 'GET',
     headers: { 'Authorization': 'Bearer ' + currentToken.access_token },
   });
   const data= await response.json();
-  infoList = data.albums.items;
+  searchList = data.albums.items;
   renderSearch();
 }
-searchSpotify();
 
 
 const renderSearch =()=>{
-  let searchHTML = infoList.map(
+  let searchHTML = searchList.map(
     (search) =>
   `<div class="music-container-main border" onclick="window.location.href=''">
         <img class="album-img-size" src=${search.images[0].url}>
         <div class="music-container-title container hide-overflow fs-5">
-          
-        </div>
-        <div class="music-container-artist container hide-overflow fs-6">
           ${search.name}
         </div>
+        <div class="music-container-artist container hide-overflow fs-6">
+          ${search.artists[0].name}
+        </div>
       </div>`
-  ).join('')
-  document.getElementById("print-search-results").innerHTML = searchHTML;
+  ).join('');
+  renderTemplate("navbar-target", "navbar-template");
+  renderTemplate("main","search-result-template");
+  renderTemplate("footer-target", "footer-template");
+  document.getElementById("print-search-results").innerHTML = searchHTML
+  document.getElementById("search-value").innerHTML = keyword;
 }
 
 
@@ -361,6 +367,15 @@ const getMoreAlbums = () => {
     albumToggle = false;
     document.getElementById("get-more-albums-button").innerHTML = "Less"
   }
+}
+
+const gotoMainPage=()=>{
+  renderTemplate("navbar-target", "navbar-template");
+  renderTemplate("main", "logged-in-template", userData);
+  renderTemplate("footer-target", "footer-template");
+  getRecommendations("k-pop",7);
+  getRecentAlbums(7);
+  getPopularPlaylists('US',7)
 }
 
 
