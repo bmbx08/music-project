@@ -66,6 +66,9 @@ body {
     color: skyblue;
 }
 
+.nav-margin{
+    margin-right: 10px;
+}
 
 .my-icon {
     width: 3em;
