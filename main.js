@@ -338,7 +338,7 @@ const searchSpotify= async ()=> {
 const renderSearch =()=>{
   let searchHTML = searchList.map(
     (search) =>
-  `<div class="music-container-main border" onclick="window.location.href=''">
+  `<div class="music-container-main border" onclick="window.location.href='${search.external_urls.spotify}'">
         <img class="album-img-size" src=${search.images[0].url}>
         <div class="music-container-title container hide-overflow fs-5">
           ${search.name}
