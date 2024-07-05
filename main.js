@@ -8,7 +8,7 @@
  */
 
 const clientId = 'f2ff519639164451a2d80c6b9ad2ae26'; // your clientId
-const redirectUrl = 'https://intmusic.netlify.app/main.html'; // your redirect URL - must be localhost URL and/or HTTPS
+const redirectUrl = 'http://127.0.0.1:5501/main.html'; // your redirect URL - must be localhost URL and/or HTTPS
 
 const authorizationEndpoint = "https://accounts.spotify.com/authorize";
 const tokenEndpoint = "https://accounts.spotify.com/api/token";
